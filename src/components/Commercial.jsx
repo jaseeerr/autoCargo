@@ -6,6 +6,14 @@ const Commercial = () => {
     const ref = useRef();
   return (
     <div className="container mx-auto p-4">
+      {/* forms */}
+      <div className='flex'>
+        <input type="text" name="" id="" className='border-2 rounded-md border-black' placeholder='COMMERCIAL INVOICE No' />
+        <input type="date" name="" id="" className='border-2 rounded-md border-black' placeholder='COMMERCIAL INVOICE No' />
+        <input type="text" name="" id="" className='border-2 rounded-md border-black' placeholder='COMMERCIAL INVOICE No' />
+
+      </div>
+      {/* end forms */}
       <div className="px-10" ref={ref}>
         <div className="flex justify-between items-center mb-4">
           <div>
