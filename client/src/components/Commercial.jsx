@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactPrint from "react-to-print";
-
-const Commercial = () => {
+import axios from "axios"
+import toast,{Toaster} from 'react-hot-toast'
+import { SERVER_URL } from "../../urls/urls";
+const Commercial1 = () => {
   const ref = useRef();
   const [formattedDate, setFormattedDate] = useState("1/jan/2023");
   const [comInvoice, setComInvoice] = useState("IGST/PA/70/23-24");
@@ -24,7 +26,7 @@ const Commercial = () => {
   const [total, setTotal] = useState(0);
   const [signature, setSignature] = useState("ranju");
   const [signPic, setSignPic] = useState(
-    "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369804/temp/image_ywat4p.png"
+    "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369804/autoCargo/image_ywat4p.png"
   );
   // ORIGIN	GRADE	NET KGs	GROSS WEIGHT	PRICE/ KG $	No. of Cartons	AMOUNT ($ USD)
   const [h1, setH1] = useState("ORIGIN");
@@ -41,9 +43,59 @@ const Commercial = () => {
   const [v5, setV5] = useState("");
   const [v6, setV6] = useState("");
   const [v7, setV7] = useState("");
-
+  const [amounts,setAmounts] = useState([])
+ 
+  
   const [data, setData] = useState([]);
 
+  const [span,setSpan] = useState(5)
+
+  const saveInvoice = async()=>{
+
+    const data1 = {
+      commercialInvoice:comInvoice,
+      date:formattedDate,
+      
+      address1:ad1,
+      address2:ad2,
+      address3:ad3,
+      address4:ad4,
+      signature:signPic,
+      company:company,
+      acid,
+      pt1,
+      pt2,
+      pt3,
+      pt4,
+      pt5,
+      pt6,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      h7,
+      values:data
+
+      
+    }
+      toast.loading("Loading...")
+    const res = await axios.post(`${SERVER_URL}/save`,data1)
+    toast.dismiss()
+    if(res.data.success)
+      {
+        toast.success("New Entry Saved")
+        setTimeout(()=>{
+            location.reload()
+        },1500)
+      }
+      else
+      {
+        toast.error("Error Saving New Entry")
+      }
+
+  }
   const addData = () => {
     const newData = {
       v1,
@@ -56,16 +108,75 @@ const Commercial = () => {
     };
 
     setData([...data, newData]);
+
+  
+    let headlist = []
+    if (h1.length > 0) {
+      headlist.push(h1);
+    }
+    if (h2.length > 0) {
+      headlist.push(h2);
+    }
+    if (h3.length > 0) {
+      headlist.push(h3);
+    }
+    if (h4.length > 0) {
+      headlist.push(h4);
+    }
+    if (h5.length > 0) {
+      headlist.push(h5);
+    }
+    if (h6.length > 0) {
+      headlist.push(h6);
+    }
+    if (h7.length > 0) {
+      headlist.push(h7);
+    }
+
+    const kgPos = headlist.indexOf('NET KGs');
+    const pricePos = headlist.indexOf('PRICE/ KG $');
+    const amountPos = headlist.indexOf('AMOUNT ($ USD)')
+    console.log('amt pos ',amountPos)
+
+
+    const calculateAmount = () => {
+      const values = [v1,v2,v3,v4,v5,v6,v7]
+      const netKgs = parseFloat(values[kgPos]) || 0;
+      const pricePerKg = parseFloat(values[pricePos]) || 0;
+      let total = netKgs * pricePerKg
+     
+      
+      setAmounts([...amounts, total])      
+      total = total.toLocaleString();
+      values[amountPos] = '$ '+total
+      const newData = {
+        v1:values[0],
+        v2:values[1],
+        v3:values[2],
+        v4:values[3],
+        v5:values[4],
+        v6:values[5],
+        v7:values[6],
+      };
+  
+      setData([...data, newData]);
+      return total;
+    };
+
+    const total =  calculateAmount()
+    console.log("total ",total)
+
+
   };
 
   useEffect(() => {
     if (signature == "ranju") {
       setSignPic(
-        "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369804/temp/image_ywat4p.png"
+        "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369804/autoCargo/image_ywat4p.png"
       );
     } else {
       setSignPic(
-        "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369804/temp/image_ywat4p.png"
+        "https://res.cloudinary.com/dfethvtz3/image/upload/v1717405000/autoCargo/signature2_cbvnnu.jpg"
       );
     }
   }, [signature]);
@@ -124,11 +235,46 @@ const Commercial = () => {
     if (h7) {
       count++;
     }
-    alert(count)
+
+    if(count==7)
+      {
+        setSpan(5)
+      }
+      else if(count==6)
+        {
+          setSpan(4)
+        }
+        else if(count==5)
+          {
+            setSpan(3)
+          }
+          else if(count==4)
+            {
+              setSpan(2)
+            }
+            else if(count==3)
+              {
+                setSpan(1)
+              }
+   
   }, [h1, h2, h3, h4, h5, h6, h7]);
+
+  const calcTotal = () => {
+    console.log()
+    const sum = amounts.reduce((acc, current) => acc + Number(current), 0);
+    const formattedSum = sum.toLocaleString();
+    console.log('sum',formattedSum)
+    setTotal(formattedSum);
+  };
+
+  useEffect(()=>{
+    calcTotal()
+   
+  },[amounts])
   return (
     <div className="container mx-auto p-4">
       {/* forms */}
+     
       <div className="p-4 border-2">
         <h1 className="text-black text-center font-semibold underline">
           Edit Data
@@ -221,9 +367,9 @@ const Commercial = () => {
                 className="mt-1 block w-full border-2 rounded-md border-gray-300"
               >
                 <option value="">Select Signature</option>
-                <option value="signature1">Signature 1</option>
-                <option value="signature2">Signature 2</option>
-                <option value="signature3">Signature 3</option>
+                <option value="ranju">Ranju</option>
+                <option value="salah">Salah</option>
+                {/* <option value="signature3">Signature 3</option> */}
               </select>
             </label>
           </div>
@@ -523,7 +669,7 @@ const Commercial = () => {
           <div>
             <img
               src={
-                "https://res.cloudinary.com/dfethvtz3/image/upload/v1716370004/temp/Screenshot_2024-05-22_132613_t4op7t.png"
+                "https://res.cloudinary.com/dfethvtz3/image/upload/v1716370004/autoCargo/Screenshot_2024-05-22_132613_t4op7t.png"
               }
               alt="Logo"
               className="h-28"
@@ -594,9 +740,42 @@ const Commercial = () => {
                 data.map((x) => {
                   return (
                     <tr>
+                      {x?.v1 &&
                       <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                        {x.v1}
-                      </td>
+                      {x.v1}
+                    </td>
+                     }
+                      {x?.v2 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v2}
+                    </td>
+                     }
+                      {x?.v3 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v3}
+                    </td>
+                     }
+                      {x?.v4 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v4}
+                    </td>
+                     }
+                      {x?.v5 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v5}
+                    </td>
+                     }
+                      {x?.v6 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v6}
+                    </td>
+                     }
+                      {x?.v7 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v7}
+                    </td>
+                     }
+{/*                       
                       <td className="border border-gray-300 text-sm px-1 py-1 text-center">
                         {x.v2}
                       </td>
@@ -614,7 +793,7 @@ const Commercial = () => {
                       </td>
                       <td className="border border-gray-300 text-sm px-1 py-1 text-center">
                         {x.v7}
-                      </td>
+                      </td> */}
                     </tr>
                   );
                 })}
@@ -625,7 +804,7 @@ const Commercial = () => {
                   TOTAL
                 </td>
                 <td
-                  colSpan="5"
+                  colSpan={span}
                   className="border border-gray-300 px-2 py-1 font-bold text-left"
                 ></td>
                 <td className="border border-gray-300 px-2 py-1 font-bold text-center">
@@ -712,17 +891,15 @@ const Commercial = () => {
         <div className="my-6">
           <span className="flex">
             <img
-              src={
-                "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369804/temp/image_ywat4p.png"
-              }
+              src={signPic}
               alt="Signature"
               className="h-12 "
             />
             <img
               src={
-                "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369857/temp/Screenshot_2024-05-22_132348_c0s6lj.png"
+                "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369857/autoCargo/Screenshot_2024-05-22_132348_c0s6lj.png"
               }
-              alt="Signature"
+              alt="SEAL"
               className="h-20 ml-56"
             />
           </span>
@@ -753,7 +930,7 @@ const Commercial = () => {
       <ReactPrint
         trigger={() => (
           <button
-            className="my-3 px-5 py-1 border rounded-md bg-blue-500 hover:bg-blue-600 cursor-pointer text-white"
+            className="my-3 px-5 py-1 border rounded-md bg-green-500 hover:bg-green-600 cursor-pointer text-white"
             id="btn"
           >
             Download PDF
@@ -762,8 +939,15 @@ const Commercial = () => {
         content={() => ref.current}
         documentTitle={`FILE`}
       />
+      <br />
+       <button
+            className="my-3 px-5 py-1 border rounded-md bg-blue-500 hover:bg-blue-600 cursor-pointer text-white"
+            onClick={saveInvoice}
+          >
+            SAVE INVOICE
+          </button>
     </div>
   );
 };
 
-export default Commercial;
+export default Commercial1;
