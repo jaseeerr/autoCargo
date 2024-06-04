@@ -25,6 +25,7 @@ const dataSchema = new Schema({
     h6:String,
     h7:String,
     values:[],
+    total:String
 
    
 })
