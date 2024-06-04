@@ -60,4 +60,45 @@ router.get('/getInvoice/:id', async function(req, res, next) {
   }
 });
 
+router.post('/searchCi', async function(req, res, next) {
+  try {
+   
+   const data = await Data.find({ commercialInvoice: { $regex: req.body.keyword, $options: 'i' } });
+    res.json({success:true,data})
+  } catch (error) {
+    console.log(error)
+    res.json({success:false})
+  }
+});
+
+router.post('/searchAcid', async function(req, res, next) {
+  try {
+   
+   const data = await Data.find({ acid: { $regex: req.body.keyword, $options: 'i' } });
+    res.json({success:true,data})
+  } catch (error) {
+    console.log(error)
+    res.json({success:false})
+  }
+});
+
+router.post('/searchDate', async function(req, res, next) {
+  try {
+   
+   const data = await Data.find({
+    date: {
+      $gte: new Date(req.body.from),
+      $lte: new Date(req.body.to),
+    },
+  });
+
+  console.log(data)
+  console.log('length : ',data.length);
+    res.json({success:true,data})
+  } catch (error) {
+    console.log(error)
+    res.json({success:false})
+  }
+});
+
 module.exports = router;

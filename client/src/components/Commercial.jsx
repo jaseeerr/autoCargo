@@ -36,13 +36,13 @@ const Commercial1 = () => {
   const [h5, setH5] = useState("PRICE/ KG $");
   const [h6, setH6] = useState("No. of Cartons");
   const [h7, setH7] = useState("AMOUNT ($ USD)");
-  const [v1, setV1] = useState("");
-  const [v2, setV2] = useState("");
-  const [v3, setV3] = useState("");
-  const [v4, setV4] = useState("");
-  const [v5, setV5] = useState("");
-  const [v6, setV6] = useState("");
-  const [v7, setV7] = useState("");
+  const [v1, setV1] = useState("india");
+  const [v2, setV2] = useState("asd");
+  const [v3, setV3] = useState("44000");
+  const [v4, setV4] = useState("asd");
+  const [v5, setV5] = useState("1.99");
+  const [v6, setV6] = useState("asd");
+  const [v7, setV7] = useState("asd");
   const [amounts,setAmounts] = useState([])
  
   
