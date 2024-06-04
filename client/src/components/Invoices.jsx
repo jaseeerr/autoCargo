@@ -5,18 +5,7 @@ import toast from 'react-hot-toast'
 
 function Invoices() {
 
-    const [data,setData] = useState([
-        {
-            acid:"asdasdasdasd",
-            commercialInvoice:"asdasdasdasda",
-            date:"33/55/66"
-        },
-        {
-            acid:"1111",
-            commercialInvoice:"22222",
-            date:"11/22/33"
-        }
-    ])
+    const [data,setData] = useState([])
 
     
     const convertDateFormat = (isoDateString) => {
