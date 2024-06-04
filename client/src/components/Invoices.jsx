@@ -57,7 +57,7 @@ function Invoices() {
 
     const searchCi = async()=>{
         const res = await axios.post(`${SERVER_URL}/searchCi`,{keyword:ci})
-        if(res.data.success)
+        if(res.data.success && res.data.data.length > 0)
             {
                 toast.success("Invoice Fetched")
                 let data = res.data.data
@@ -81,7 +81,7 @@ function Invoices() {
 
     const searchAcid = async()=>{
         const res = await axios.post(`${SERVER_URL}/searchAcid`,{keyword:acid})
-        if(res.data.success)
+        if(res.data.success && res.data.data.length > 0)
             {
                 toast.success("Invoice Fetched")
                 let data = res.data.data
@@ -105,7 +105,7 @@ function Invoices() {
 
     const searchDate = async()=>{
         const res = await axios.post(`${SERVER_URL}/searchDate`,{from,to})
-        if(res.data.success)
+        if(res.data.success && res.data.data.length > 0)
             {
                 toast.success("Invoice Fetched")
                 let data = res.data.data
