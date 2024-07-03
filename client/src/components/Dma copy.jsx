@@ -1,103 +1,13 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import ReactPrint from "react-to-print";
 
 function Dma() {
-  
   const ref = useRef();
-  const [invoiceDate1,setInvoiceDate1] = useState('Invoice No. & Date')
-  const [invoiceDate2,setInvoiceDate2] = useState('DMA/42/23-24')
-  const [invoiceDate3,setInvoiceDate3] = useState('Dtd 19.03.2024')
-  const [invoiceDate4,setInvoiceDate4] = useState('Ship. REF. : MAL24-0224')
-
-  const [consignee1,setConsignee1] = useState('EL -WARDA FOR TOBACOO COMPANY')
-  const [consignee2,setConsignee2] = useState('AHMED FATHI AHMED EL - TALAWI AND PARTNERS')
-  const [consignee3,setConsignee3] = useState('AWEL TAREEK SHEBIN EL -KOEM')
-  const [consignee4,setConsignee4] = useState('QUESINA - MENOFYA , P.O BOX 95')
-  const [consignee5,setConsignee5] = useState('SHEBIN EL KOEM')
-  const [consignee6,setConsignee6] = useState('EGYPT')
-
-  const [coo,setCoo] = useState('Malawi')
-  const [cofd,setCofd] = useState('Egypt')
 
   return (
     <>
-    <div className="p-10 mt-10 border-2 border-black">
-      <h2 className="text-center font-bold mb-4 underline">Invoice Date column</h2>
- <span className="flex justify-center ">
- <input type="text" value={invoiceDate1} onChange={(e)=>setInvoiceDate1(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 1"/>
-       <input type="text" value={invoiceDate2} onChange={(e)=>setInvoiceDate2(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 2"/>
-       <input type="text" value={invoiceDate3} onChange={(e)=>setInvoiceDate3(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 3"/>
-       <input type="text" value={invoiceDate4} onChange={(e)=>setInvoiceDate4(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 4"/>
- </span>
- <h2 className="text-center font-bold mb-4 underline">Country of origin & final destination</h2>
- <span className="flex justify-center ">
-       <input type="text" value={coo} onChange={(e)=>setCoo(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 2"/>
-       <input type="text" value={cofd} onChange={(e)=>setCofd(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 3"/>
- </span>
-    
-      
-    </div>
-
-    <div className="p-10 mt-10 border-2 border-black">
-      <h2 className="text-center font-bold mb-4 underline">CONSIGNEE column</h2>
- <span className="flex justify-center ">
-       <input type="text" value={consignee1} onChange={(e)=>setConsignee1(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 2"/>
-       <input type="text" value={consignee2} onChange={(e)=>setConsignee2(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 3"/>
-       <input type="text" value={consignee3} onChange={(e)=>setConsignee3(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 4"/>
-       <input type="text" value={consignee4} onChange={(e)=>setConsignee4(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 2"/>
-       <input type="text" value={consignee5} onChange={(e)=>setConsignee5(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 3"/>
-       <input type="text" value={consignee6} onChange={(e)=>setConsignee6(e.target.value.trim())} className="border border-black p-1 rounded-md ml-3" placeholder="line 4"/>
- </span>
-
- <h2 className="text-center font-bold mb-4 underline mt-5">DATA TABLE</h2>
-
- <table className="mx-auto mt-5">
-  <thead>
-    <tr>
-      <th  className="p-1 border border-black">
-      Marks & Nos.
-      </th>
-      <th  className="p-1 border border-black">
-      No. & Kind of Pkgs
-      </th>
-      <th  className="p-1 border border-black">
-      Description of Goods
-      </th>
-      <th  className="p-1 border border-black">
-      Quantity
-      </th>
-      <th  className="p-1 border border-black">
-      PRICE/KG
-      </th>
-      <th  className="p-1 border border-black">
-      TOTAL USD($)
-      </th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td className="p-1 border border-black">
-        <input type="text" />
-      </td>
-      <td className="p-1 border border-black">
-        <input type="text" />
-      </td>
-      <td className="p-1 border border-black">
-        <input type="text" />
-      </td>
-      <td className="p-1 border border-black">
-        <input type="text" />
-      </td>
-      <td className="p-1 border border-black">
-        <input type="text" />
-      </td>
-      <td className="p-1 border border-black">
-        <input type="text" />
-      </td>
-    </tr>
-  </tbody>
- </table>
-      
+    <div className="flex p-10 mt-10 border-2 border-black">
+       <input type="text" />
     </div>
       <div className="mb-5 mt-5 p-2" ref={ref}>
         <div className="flex w-full justify-between items-start">
@@ -120,7 +30,7 @@ function Dma() {
 
         <div className="flex justify-center mt-5 w-full">
           <span className="border-2 border-black w-full">
-            <p className="text-center font-bold">PROFORMA INVOICE</p>
+            <p className="text-center font-semibold">Profoma Invoice</p>
           </span>
         </div>
 
@@ -139,11 +49,10 @@ function Dma() {
             </p>
           </div>
           <div className="border-t-4 border-l-2 border-r-4 border-black w-96">
-            <p className="text-center font-semibold">{invoiceDate1}</p>
-            <p className="text-center font-semibold">{invoiceDate2}</p>
-            <p className="text-center font-semibold">{invoiceDate3}</p>
-            <p className="text-center font-semibold">{invoiceDate4}</p>
-           
+            <p className="text-center font-semibold">Invoice No. & Date</p>
+            <p className="text-center font-semibold">DMA/42/23-24</p>
+            <p className="text-center font-semibold">Dtd 19.03.2024</p>
+            <p className="text-center font-semibold">Ship. REF. : MAL24-0224</p>
           </div>
         </div>
 
@@ -152,23 +61,13 @@ function Dma() {
             <span className="border-b-2 border-r-2 border-black px-2">
               <strong>CONSIGNEE</strong>
             </span>
+            <p className="ml-3 font-semibold">DMA TOBACCO TRADING LLC</p>
             <p className="ml-3 font-semibold">
-              {consignee1}
+              Office. 120 | 2020 Building | Al Quoz-3|
             </p>
+            <p className="ml-3 font-semibold">PB.128744</p>
             <p className="ml-3 font-semibold">
-              {consignee2}
-            </p>
-            <p className="ml-3 font-semibold">
-              {consignee3}
-              </p>
-            <p className="ml-3 font-semibold">
-              {consignee4}
-            </p>
-            <p className="ml-3 font-semibold">
-              {consignee5}
-            </p>
-            <p className="ml-3 font-semibold">
-              {consignee6}
+              Dubai United Arab Emirates | Tel.+971 4 572 0340
             </p>
           </div>
           <div className="flex border-b-2 border-l-2 border-r-4 border-black w-96">
@@ -179,7 +78,7 @@ function Dma() {
             </div>
             <div className="border-2 border-black mt-10 w-1/2">
               <hr className="border-2 border-black" />
-              <p className="text-center text-sm mt-3 font-semibold">
+              <p className="text-center mt-3 font-semibold">
                 Country of final destination
               </p>
               <p className="text-center font-semibold">Egypt</p>

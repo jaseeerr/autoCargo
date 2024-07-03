@@ -8,6 +8,7 @@ const dataSchema = new Schema({
     address2:String,
     address3:String,
     address4:String,
+    address5:String,
     signature:String,
     company:String,
     acid:String,

@@ -12,10 +12,13 @@ const Commercial1 = () => {
   );
   const [port, setPort] = useState("CIF ALEXANDRIA OLD PORT, EGYPT");
   const [supplier, setSupplier] = useState("MESSRS");
+  const [address,setAddress] = useState('tobleaf')
   const [ad1, setAd1] = useState("TOBLEAF INTERNATIONAL");
   const [ad2, setAd2] = useState("6TH OCTOBER CITY, TOURIST AREA NR.6");
   const [ad3, setAd3] = useState("PLOT NR 76, APP.NO. 2");
   const [ad4, setAd4] = useState("GIZA - EGYPT");
+  const [ad5, setAd5] = useState("");
+
   const [acid, setAcid] = useState("4730227452023120206");
   const [pt1, setPt1] = useState("90 days from arrival");
   const [pt2, setPt2] = useState("91 days from arrival");
@@ -60,6 +63,7 @@ const Commercial1 = () => {
       address2:ad2,
       address3:ad3,
       address4:ad4,
+      address5:ad5,
       signature:signPic,
       company:company,
       acid,
@@ -273,6 +277,30 @@ const Commercial1 = () => {
     calcTotal()
    
   },[amounts])
+
+  useEffect(()=>{
+         if(address=='tobleaf')
+          {
+              setAd1('TOBLEAF INTERNATIONAL')
+              setAd2('6TH OCTOBER CITY, TOURIST AREA NR.6')
+              setAd3('PLOT NR 76, APP.NO. 2')
+              setAd4('GIZA - EGYPT')
+          }
+          else if(address=='elwarda')
+            {
+              setAd1('ELWARDA Tobacco Company')
+              setAd2('Ahmed Fathi Ahmed El Talawi and')
+              setAd3('Partners, Awel Tareik Shebein El Kom')
+              setAd4('Quesna - Monofya, Egypt')
+            }
+            else if(address=='embaby')
+              {
+                setAd1('IBRAHIM SOBHY ALHASANEEN ALEMBABY')
+                setAd2('ASSOCIATION TAHA AWADEEN STREET')
+                setAd3('AWADIN TAHA OFF ABBASI STREET')
+                setAd4('EL MANSOURA, EGYPT')
+              }
+  },[address])
   return (
     <div className="container mx-auto p-4">
       {/* forms */}
@@ -363,6 +391,18 @@ const Commercial1 = () => {
           </div>
           <div className="w-full md:w-1/2 lg:w-1/3 px-2 mb-4">
             <label className="block">
+              <span className="text-black font-semibold">Address Line 5</span>
+              <input
+                type="text"
+                value={ad5}
+                onChange={(e) => setAd5(e.target.value)}
+                className="mt-1 block w-full border-2 rounded-md border-gray-300"
+                placeholder="Address Line 4"
+              />
+            </label>
+          </div>
+          <div className="w-full md:w-1/2 lg:w-1/3 px-2 mb-4">
+            <label className="block">
               <span className="text-black font-semibold">Signature</span>
               <select
                 onChange={(e) => setSignature(e.target.value)}
@@ -371,6 +411,21 @@ const Commercial1 = () => {
                 <option value="">Select Signature</option>
                 <option value="ranju">Ranju</option>
                 <option value="salah">Salah</option>
+                {/* <option value="signature3">Signature 3</option> */}
+              </select>
+            </label>
+          </div>
+          <div className="w-full md:w-1/2 lg:w-1/3 px-2 mb-4">
+            <label className="block">
+              <span className="text-black font-semibold">Address</span>
+              <select
+                onChange={(e) => setAddress(e.target.value)}
+                className="mt-1 block w-full border-2 rounded-md border-gray-300"
+              >
+                <option value="">Select Address</option>
+                <option value="elwarda">Elwarda</option>
+                <option value="tobleaf">Tobleaf</option>
+                <option value="embaby">Embaby</option>
                 {/* <option value="signature3">Signature 3</option> */}
               </select>
             </label>
@@ -689,6 +744,8 @@ const Commercial1 = () => {
           <p className="font-semibold">{ad2}</p>
           <p className="font-semibold">{ad3}</p>
           <p className="font-semibold">{ad4}</p>
+          <p className="font-semibold">{ad5}</p>
+
         </div>
         <div className="mb-2 text-center">
           <p className="text-md font-bold accent-color underline">
@@ -892,17 +949,25 @@ const Commercial1 = () => {
         </div>
         <div className="my-6">
           <span className="flex">
+            {signature == 'ranju' ? 
             <img
+            src={signPic}
+            alt="Signature"
+            className="h-16 mt-12 ml-10"
+          />
+        :
+        <img
               src={signPic}
               alt="Signature"
-              className="h-12 "
+              className="h-16 mt-10 ml-3"
             />
+            }
             <img
               src={
-                "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369857/autoCargo/Screenshot_2024-05-22_132348_c0s6lj.png"
+                "https://res.cloudinary.com/dfethvtz3/image/upload/v1719990101/autoCargo/tobleafStampNew_ze36hm.png"
               }
               alt="SEAL"
-              className="h-20 ml-56"
+              className="w-4h-48 h-48 ml-44"
             />
           </span>
           {/* <p>Authorized Signature</p> */}
@@ -912,7 +977,7 @@ const Commercial1 = () => {
             <p>
               <strong>TOBLEAF TRADING DMCC</strong>
             </p>
-            <hr />
+            <hr className="border border-blue-500" />
             <p className="text-center text-sm">
               Off. 2504, HDS Business Center, Cluster M, JLT, P.O. Box 128744,
               Dubai - United Arab Emirates
