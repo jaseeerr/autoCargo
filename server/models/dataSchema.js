@@ -11,6 +11,7 @@ const dataSchema = new Schema({
     address5:String,
     signature:String,
     company:String,
+    taxId:String,
     acid:String,
     pt1:String,
     pt2:String,

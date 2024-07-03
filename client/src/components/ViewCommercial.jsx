@@ -12,6 +12,8 @@ const ViewCommercial = () => {
   const [company, setCompany] = useState("UNMANUFACTURED INDIAN DARK AIR CURED TOBACCO, crop 2023");
   const [port, setPort] = useState("CIF ALEXANDRIA OLD PORT, EGYPT");
   const [supplier, setSupplier] = useState("MESSRS");
+  const [taxId,setTaxId] = useState('473022745')
+
   const [ad1, setAd1] = useState("TOBLEAF INTERNATIONAL");
   const [ad2, setAd2] = useState("6TH OCTOBER CITY, TOURIST AREA NR.6");
   const [ad3, setAd3] = useState("PLOT NR 76, APP.NO. 2");
@@ -394,6 +396,18 @@ const ViewCommercial = () => {
                 onChange={(e) => setAcid(e.target.value)}
                 className="mt-1 block w-full border-2 rounded-md border-gray-300"
                 placeholder="ACID"
+              />
+            </label>
+          </div>
+          <div className="w-full md:w-1/2 lg:w-1/3 px-2 mb-4">
+            <label className="block">
+              <span className="text-black font-semibold">TaxId</span>
+              <input
+                type="text"
+                value={taxId}
+                onChange={(e) => setTaxId(e.target.value)}
+                className="mt-1 block w-full border-2 rounded-md border-gray-300"
+                placeholder="TaxId"
               />
             </label>
           </div>
@@ -840,7 +854,7 @@ const ViewCommercial = () => {
           </p>
           <p className="text-sm">
             Egyptian Importer Tax ID:{" "}
-            <strong className="ml-[178px]">473022745</strong>
+            <strong className="ml-[178px]">{taxId}</strong>
           </p>
           <p className="text-sm">
             Foreign Exporter Registration Type:{" "}

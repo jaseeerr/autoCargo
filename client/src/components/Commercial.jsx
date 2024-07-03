@@ -19,6 +19,8 @@ const Commercial1 = () => {
   const [ad4, setAd4] = useState("GIZA - EGYPT");
   const [ad5, setAd5] = useState("");
 
+  const [taxId,setTaxId] = useState('473022745')
+
   const [acid, setAcid] = useState("4730227452023120206");
   const [pt1, setPt1] = useState("90 days from arrival");
   const [pt2, setPt2] = useState("91 days from arrival");
@@ -461,6 +463,18 @@ const Commercial1 = () => {
                 onChange={(e) => setAcid(e.target.value)}
                 className="mt-1 block w-full border-2 rounded-md border-gray-300"
                 placeholder="ACID"
+              />
+            </label>
+          </div>
+          <div className="w-full md:w-1/2 lg:w-1/3 px-2 mb-4">
+            <label className="block">
+              <span className="text-black font-semibold">TaxId</span>
+              <input
+                type="text"
+                value={taxId}
+                onChange={(e) => setTaxId(e.target.value)}
+                className="mt-1 block w-full border-2 rounded-md border-gray-300"
+                placeholder="TaxId"
               />
             </label>
           </div>
@@ -929,7 +943,7 @@ const Commercial1 = () => {
           </p>
           <p className="text-sm">
             Egyptian Importer Tax ID:{" "}
-            <strong className="ml-[178px]">473022745</strong>
+            <strong className="ml-[178px]">{taxId}</strong>
           </p>
           <p className="text-sm">
             Foreign Exporter Registration Type:{" "}
