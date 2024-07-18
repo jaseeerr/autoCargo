@@ -302,6 +302,14 @@ const CopyCommercial1 = () => {
    
   },[amounts])
 
+  const handleRowDoubleClick = (index) => {
+    const confirmed = window.confirm("Are you sure you want to delete this row?");
+    if (confirmed) {
+      const updatedData = data.filter((_, i) => i !== index);
+      setData(updatedData);
+    }
+  };
+
   useEffect(()=>{
          if(address=='tobleaf')
           {
@@ -877,67 +885,46 @@ const CopyCommercial1 = () => {
               </tr>
             </thead>
             <tbody>
-              {data.length > 0 &&
-                data.map((x) => {
-                  return (
-                    <tr>
-                      {x?.v1 &&
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                      {x.v1}
-                    </td>
-                     }
-                      {x?.v2 &&
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                      {x.v2}
-                    </td>
-                     }
-                      {x?.v3 &&
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                      {x.v3}
-                    </td>
-                     }
-                      {x?.v4 &&
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                      {x.v4}
-                    </td>
-                     }
-                      {x?.v5 &&
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                      {x.v5}
-                    </td>
-                     }
-                      {x?.v6 &&
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                      {x.v6}
-                    </td>
-                     }
-                      {x?.v7 &&
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                      {x.v7}
-                    </td>
-                     }
-{/*                       
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                        {x.v2}
-                      </td>
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                        {x.v3}
-                      </td>
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                        {x.v4}
-                      </td>
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                        {x.v5}
-                      </td>
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                        {x.v6}
-                      </td>
-                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-                        {x.v7}
-                      </td> */}
-                    </tr>
-                  );
-                })}
+            {data.length > 0 &&
+      data.map((x, index) => (
+        <tr key={index} onDoubleClick={() => handleRowDoubleClick(index)}>
+          {x?.v1 && (
+            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+              {x.v1}
+            </td>
+          )}
+          {x?.v2 && (
+            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+              {x.v2}
+            </td>
+          )}
+          {x?.v3 && (
+            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+              {x.v3}
+            </td>
+          )}
+          {x?.v4 && (
+            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+              {x.v4}
+            </td>
+          )}
+          {x?.v5 && (
+            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+              {x.v5}
+            </td>
+          )}
+          {x?.v6 && (
+            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+              {x.v6}
+            </td>
+          )}
+          {x?.v7 && (
+            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+              {x.v7}
+            </td>
+          )}
+        </tr>
+      ))}
             </tbody>
             <tfoot>
               <tr className="header-bg">
