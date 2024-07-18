@@ -56,6 +56,7 @@ const ViewCommercial = () => {
     const data1 = {
       commercialInvoice: comInvoice,
       date: formattedDate,
+      taxId,
       address1: ad1,
       address2: ad2,
       address3: ad3,
@@ -201,7 +202,7 @@ const ViewCommercial = () => {
       setAd3(invoiceData.address3);
       setAd4(invoiceData.address4);
       setAd5(invoiceData?.address5);
-
+      setTaxId(invoiceData?.taxId)
       setSignPic(invoiceData.signature);
       setCompany(invoiceData.company);
       setAcid(invoiceData.acid);

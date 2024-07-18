@@ -60,7 +60,7 @@ const Commercial1 = () => {
     const data1 = {
       commercialInvoice:comInvoice,
       date:formattedDate,
-      
+      taxId,
       address1:ad1,
       address2:ad2,
       address3:ad3,
