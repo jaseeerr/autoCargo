@@ -94,9 +94,10 @@ const Commercial1 = () => {
     if(res.data.success)
       {
         toast.success("New Entry Saved")
-        setTimeout(()=>{
-            location.reload()
-        },1500)
+        document.getElementById('btn').click()
+        // setTimeout(()=>{
+        //     location.reload()
+        // },1500)
       }
       else
       {

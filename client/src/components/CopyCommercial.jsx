@@ -1,24 +1,29 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactPrint from "react-to-print";
-import axios from "axios";
-import toast, { Toaster } from 'react-hot-toast';
+import axios from "axios"
+import toast,{Toaster} from 'react-hot-toast'
 import { SERVER_URL } from "../../urls/urls";
 import { useParams } from "react-router-dom";
-
-const ViewCommercial = () => {
+const CopyCommercial1 = () => {
   const ref = useRef();
+  const {id} = useParams()
+
   const [formattedDate, setFormattedDate] = useState("1/jan/2023");
   const [comInvoice, setComInvoice] = useState("IGST/PA/70/23-24");
-  const [company, setCompany] = useState("UNMANUFACTURED INDIAN DARK AIR CURED TOBACCO, crop 2023");
+  const [company, setCompany] = useState(
+    "UNMANUFACTURED INDIAN DARK AIR CURED TOBACCO, crop 2023"
+  );
   const [port, setPort] = useState("CIF ALEXANDRIA OLD PORT, EGYPT");
   const [supplier, setSupplier] = useState("MESSRS");
-  const [taxId,setTaxId] = useState('473022745')
-
+  const [address,setAddress] = useState('tobleaf')
   const [ad1, setAd1] = useState("TOBLEAF INTERNATIONAL");
   const [ad2, setAd2] = useState("6TH OCTOBER CITY, TOURIST AREA NR.6");
   const [ad3, setAd3] = useState("PLOT NR 76, APP.NO. 2");
   const [ad4, setAd4] = useState("GIZA - EGYPT");
-  const [ad5, setAd5] = useState("GIZA - EGYPT");
+  const [ad5, setAd5] = useState("");
+
+  const [taxId,setTaxId] = useState('473022745')
+
   const [acid, setAcid] = useState("4730227452023120206");
   const [pt1, setPt1] = useState("90 days from arrival");
   const [pt2, setPt2] = useState("91 days from arrival");
@@ -31,7 +36,7 @@ const ViewCommercial = () => {
   const [signPic, setSignPic] = useState(
     "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369804/autoCargo/image_ywat4p.png"
   );
-  // ORIGIN GRADE NET KGs GROSS WEIGHT PRICE/ KG $ No. of Cartons AMOUNT ($ USD)
+  // ORIGIN	GRADE	NET KGs	GROSS WEIGHT	PRICE/ KG $	No. of Cartons	AMOUNT ($ USD)
   const [h1, setH1] = useState("ORIGIN");
   const [h2, setH2] = useState("GRADE");
   const [h3, setH3] = useState("NET KGs");
@@ -39,31 +44,33 @@ const ViewCommercial = () => {
   const [h5, setH5] = useState("PRICE/ KG $");
   const [h6, setH6] = useState("No. of Cartons");
   const [h7, setH7] = useState("AMOUNT ($ USD)");
-  const [v1, setV1] = useState("");
-  const [v2, setV2] = useState("");
-  const [v3, setV3] = useState("");
-  const [v4, setV4] = useState("");
-  const [v5, setV5] = useState("");
-  const [v6, setV6] = useState("");
-  const [v7, setV7] = useState("");
-  const [amounts, setAmounts] = useState([]);
+  const [v1, setV1] = useState("india");
+  const [v2, setV2] = useState("asd");
+  const [v3, setV3] = useState("44000");
+  const [v4, setV4] = useState("asd");
+  const [v5, setV5] = useState("1.99");
+  const [v6, setV6] = useState("asd");
+  const [v7, setV7] = useState("asd");
+  const [amounts,setAmounts] = useState([])
+ 
+  
   const [data, setData] = useState([]);
-  const [span, setSpan] = useState(5);
-  const [load, setLoad] = useState(false);
-  const { id } = useParams();
 
-  const updateInvoice = async () => {
+  const [span,setSpan] = useState(5)
+
+  const saveInvoice = async()=>{
+
     const data1 = {
-      commercialInvoice: comInvoice,
-      date: formattedDate,
+      commercialInvoice:comInvoice,
+      date:formattedDate,
       taxId,
-      address1: ad1,
-      address2: ad2,
-      address3: ad3,
-      address4: ad4,
-      address5: ad5,
-      signature: signPic,
-      company: company,
+      address1:ad1,
+      address2:ad2,
+      address3:ad3,
+      address4:ad4,
+      address5:ad5,
+      signature:signPic,
+      company:company,
       acid,
       pt1,
       pt2,
@@ -78,58 +85,104 @@ const ViewCommercial = () => {
       h5,
       h6,
       h7,
-      values: data,
-    };
-    toast.loading("Updating...");
-    try {
-      const res = await axios.post(`${SERVER_URL}/update/${id}`, data1);
-      toast.dismiss();
-      if (res.data.success) {
-        toast.success("Entry Updated");
-        document.getElementById('btn').click()
-        // setTimeout(() => {
-        //   location.reload();
-        // }, 1500);
-      } else {
-        toast.error("Error Updating Entry");
-      }
-    } catch (error) {
-      toast.dismiss();
-      toast.error("Error Updating Entry");
+      values:data,
+      total
+
+
+      
     }
-  };
+      toast.loading("Loading...")
+    const res = await axios.post(`${SERVER_URL}/save`,data1)
+    toast.dismiss()
+    if(res.data.success)
+      {
+        toast.success("New Entry Saved")
+        document.getElementById('btn').click()
+        // setTimeout(()=>{
+        //     location.reload()
+        // },1500)
+      }
+      else
+      {
+        toast.error("Error Saving New Entry")
+      }
 
+  }
   const addData = () => {
-    const values = [v1, v2, v3, v4, v5, v6, v7];
-    const headlist = [h1, h2, h3, h4, h5, h6, h7];
-
-    const kgPos = headlist.indexOf("NET KGs");
-    const pricePos = headlist.indexOf("PRICE/ KG $");
-    const amountPos = headlist.indexOf("AMOUNT ($ USD)");
-
-    const netKgs = parseFloat(values[kgPos]) || 0;
-    const pricePerKg = parseFloat(values[pricePos]) || 0;
-    const total = netKgs * pricePerKg;
-    const formattedTotal = total.toLocaleString();
-
-    values[amountPos] = `$ ${formattedTotal}`;
-
     const newData = {
-      v1: values[0],
-      v2: values[1],
-      v3: values[2],
-      v4: values[3],
-      v5: values[4],
-      v6: values[5],
-      v7: values[6],
+      v1,
+      v2,
+      v3,
+      v4,
+      v5,
+      v6,
+      v7,
     };
 
-    setData((prevData) => [...prevData, newData]);
-    setAmounts((prevAmounts) => [...prevAmounts, total]);
+    setData([...data, newData]);
+
+  
+    let headlist = []
+    if (h1.length > 0) {
+      headlist.push(h1);
+    }
+    if (h2.length > 0) {
+      headlist.push(h2);
+    }
+    if (h3.length > 0) {
+      headlist.push(h3);
+    }
+    if (h4.length > 0) {
+      headlist.push(h4);
+    }
+    if (h5.length > 0) {
+      headlist.push(h5);
+    }
+    if (h6.length > 0) {
+      headlist.push(h6);
+    }
+    if (h7.length > 0) {
+      headlist.push(h7);
+    }
+
+    const kgPos = headlist.indexOf('NET KGs');
+    const pricePos = headlist.indexOf('PRICE/ KG $');
+    const amountPos = headlist.indexOf('AMOUNT ($ USD)')
+    console.log('amt pos ',amountPos)
+
+
+    const calculateAmount = () => {
+      const values = [v1,v2,v3,v4,v5,v6,v7]
+      const netKgs = parseFloat(values[kgPos]) || 0;
+      const pricePerKg = parseFloat(values[pricePos]) || 0;
+      let total = netKgs * pricePerKg
+     
+      
+      setAmounts([...amounts, total])      
+      total = total.toLocaleString();
+      values[amountPos] = '$ '+total
+      const newData = {
+        v1:values[0],
+        v2:values[1],
+        v3:values[2],
+        v4:values[3],
+        v5:values[4],
+        v6:values[5],
+        v7:values[6],
+      };
+  
+      setData([...data, newData]);
+      return total;
+    };
+
+    const total =  calculateAmount()
+    console.log("total ",total)
+
+
   };
 
   useEffect(() => {
-    if (signature === "ranju") {
+    if (signature == "ranju") {
       setSignPic(
         "https://res.cloudinary.com/dfethvtz3/image/upload/v1716369804/autoCargo/image_ywat4p.png"
       );
@@ -142,8 +195,18 @@ const ViewCommercial = () => {
 
   const formatDate = (date) => {
     const months = [
-      "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-      "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
+      "JAN",
+      "FEB",
+      "MAR",
+      "APR",
+      "MAY",
+      "JUN",
+      "JUL",
+      "AUG",
+      "SEP",
+      "OCT",
+      "NOV",
+      "DEC",
     ];
     const dateObj = new Date(date);
     const day = dateObj.getDate();
@@ -160,17 +223,6 @@ const ViewCommercial = () => {
       setFormattedDate("");
     }
   };
-
-  useEffect(() => {
-    const count = [h1, h2, h3, h4, h5, h6, h7].filter(Boolean).length;
-    const spanValues = { 7: 5, 6: 4, 5: 3, 4: 2, 3: 1 };
-    setSpan(spanValues[count] || 0);
-  }, [h1, h2, h3, h4, h5, h6, h7]);
-
-  useEffect(() => {
-    const sum = amounts.reduce((acc, current) => acc + current, 0);
-    setTotal(sum.toLocaleString());
-  }, [amounts]);
 
   const convertDateFormat = (isoDateString) => {
     const months = [
@@ -189,6 +241,91 @@ const ViewCommercial = () => {
     // Format the date string in the desired format
     return `${day}/${month}/${year}`;
   };
+
+  useEffect(() => {
+    let count = 0;
+    if (h1) {
+      count++;
+    }
+    if (h2) {
+      count++;
+    }
+    if (h3) {
+      count++;
+    }
+    if (h4) {
+      count++;
+    }
+    if (h5) {
+      count++;
+    }
+    if (h6) {
+      count++;
+    }
+    if (h7) {
+      count++;
+    }
+
+    if(count==7)
+      {
+        setSpan(5)
+      }
+      else if(count==6)
+        {
+          setSpan(4)
+        }
+        else if(count==5)
+          {
+            setSpan(3)
+          }
+          else if(count==4)
+            {
+              setSpan(2)
+            }
+            else if(count==3)
+              {
+                setSpan(1)
+              }
+   
+  }, [h1, h2, h3, h4, h5, h6, h7]);
+
+  const calcTotal = () => {
+    console.log()
+    const sum = amounts.reduce((acc, current) => acc + Number(current), 0);
+    const formattedSum = sum.toLocaleString();
+    console.log('sum',formattedSum)
+    setTotal(formattedSum);
+  };
+
+  useEffect(()=>{
+    calcTotal()
+   
+  },[amounts])
+
+  useEffect(()=>{
+         if(address=='tobleaf')
+          {
+              setAd1('TOBLEAF INTERNATIONAL')
+              setAd2('6TH OCTOBER CITY, TOURIST AREA NR.6')
+              setAd3('PLOT NR 76, APP.NO. 2')
+              setAd4('GIZA - EGYPT')
+          }
+          else if(address=='elwarda')
+            {
+              setAd1('ELWARDA Tobacco Company')
+              setAd2('Ahmed Fathi Ahmed El Talawi and')
+              setAd3('Partners, Awel Tareik Shebein El Kom')
+              setAd4('Quesna - Monofya,')
+              setAd5('P.O BOX 95 SHEBEIN EL KOM,EGYP')
+            }
+            else if(address=='embaby')
+              {
+                setAd1('IBRAHIM SOBHY ALHASANEEN ALEMBABY')
+                setAd2('ASSOCIATION TAHA AWADEEN STREET')
+                setAd3('AWADIN TAHA OFF ABBASI STREET')
+                setAd4('EL MANSOURA, EGYPT')
+              }
+  },[address])
 
   const getData = async () => {
     try {
@@ -229,23 +366,17 @@ const ViewCommercial = () => {
     }
   };
 
-  const handleRowDoubleClick = (index) => {
-    const confirmed = window.confirm("Are you sure you want to delete this row?");
-    if (confirmed) {
-      const updatedData = data.filter((_, i) => i !== index);
-      setData(updatedData);
-    }
-  };
-
-  useEffect(() => {
+  useEffect(()=>{
     getData()
-  }, []);
+  },[])
+
+
   return (
     <div className="container mx-auto p-4">
       {/* forms */}
      
       <div className="p-4 border-2">
-        <h1 onClick={getData} className="text-black text-center font-semibold underline">
+        <h1 className="text-black text-center font-semibold underline">
           Edit Data
         </h1>
 
@@ -336,7 +467,7 @@ const ViewCommercial = () => {
                 value={ad5}
                 onChange={(e) => setAd5(e.target.value)}
                 className="mt-1 block w-full border-2 rounded-md border-gray-300"
-                placeholder="Address Line 5"
+                placeholder="Address Line 4"
               />
             </label>
           </div>
@@ -356,14 +487,15 @@ const ViewCommercial = () => {
           </div>
           <div className="w-full md:w-1/2 lg:w-1/3 px-2 mb-4">
             <label className="block">
-              <span className="text-black font-semibold">Signature</span>
+              <span className="text-black font-semibold">Address</span>
               <select
-                onChange={(e) => setSignature(e.target.value)}
+                onChange={(e) => setAddress(e.target.value)}
                 className="mt-1 block w-full border-2 rounded-md border-gray-300"
               >
-                <option value="">Select Signature</option>
-                <option value="ranju">Ranju</option>
-                <option value="salah">Salah</option>
+                <option value="">Select Address</option>
+                <option value="elwarda">Elwarda</option>
+                <option value="tobleaf">Tobleaf</option>
+                <option value="embaby">Embaby</option>
                 {/* <option value="signature3">Signature 3</option> */}
               </select>
             </label>
@@ -695,6 +827,7 @@ const ViewCommercial = () => {
           <p className="font-semibold">{ad3}</p>
           <p className="font-semibold">{ad4}</p>
           <p className="font-semibold">{ad5}</p>
+
         </div>
         <div className="mb-2 text-center">
           <p className="text-md font-bold accent-color underline">
@@ -703,111 +836,132 @@ const ViewCommercial = () => {
           <p className="text-md">{company}</p>
         </div>
         <div className="overflow-x-auto">
-        <table className="w-full bg-white border-collapse border border-gray-400">
-          <thead className="header-bg">
-            <tr className="bg-[#fce8d9]">
-              {h1 && (
-                <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
-                  {h1}
-                </th>
-              )}
-              {h2 && (
-                <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
-                  {h2}
-                </th>
-              )}
-              {h3 && (
-                <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
-                  {h3}
-                </th>
-              )}
-              {h4 && (
-                <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
-                  {h4}
-                </th>
-              )}
-              {h5 && (
-                <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
-                  {h5}
-                </th>
-              )}
-              {h6 && (
-                <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
-                  {h6}
-                </th>
-              )}
-              {h7 && (
-                <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
-                  {h7}
-                </th>
-              )}
-            </tr>
-          </thead>
-          <tbody>
-          {data.length > 0 &&
-      data.map((x, index) => (
-        <tr key={index} onDoubleClick={() => handleRowDoubleClick(index)}>
-          {x?.v1 && (
-            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-              {x.v1}
-            </td>
-          )}
-          {x?.v2 && (
-            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-              {x.v2}
-            </td>
-          )}
-          {x?.v3 && (
-            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-              {x.v3}
-            </td>
-          )}
-          {x?.v4 && (
-            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-              {x.v4}
-            </td>
-          )}
-          {x?.v5 && (
-            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-              {x.v5}
-            </td>
-          )}
-          {x?.v6 && (
-            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-              {x.v6}
-            </td>
-          )}
-          {x?.v7 && (
-            <td className="border border-gray-300 text-sm px-1 py-1 text-center">
-              {x.v7}
-            </td>
-          )}
-        </tr>
-      ))}
-          </tbody>
-          <tfoot>
-            <tr className="header-bg">
-              <td className="border bg-[#fce8d9] border-gray-300 px-2 py-1 font-bold text-left">
-                TOTAL
-              </td>
-              <td
-                colSpan={span}
-                className="border border-gray-300 px-2 py-1 font-bold text-left"
-              ></td>
-              <td className="border border-gray-300 px-2 py-1 font-bold text-center">
-                ${total}
-              </td>
-            </tr>
-            <tr className="header-bg">
-              <td
-                colSpan="7"
-                className="border-4 border-gray-300 px-2 py-1 font-bold text-center"
-              >
-                {port}
-              </td>
-            </tr>
-          </tfoot>
-        </table>
+          <table className="w-full bg-white border-collapse border border-gray-400">
+            <thead className="header-bg">
+              <tr className="bg-[#fce8d9]">
+                {h1 && (
+                  <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
+                    {h1}
+                  </th>
+                )}
+                {h2 && (
+                  <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
+                    {h2}
+                  </th>
+                )}
+                {h3 && (
+                  <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
+                    {h3}
+                  </th>
+                )}
+                {h4 && (
+                  <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
+                    {h4}
+                  </th>
+                )}
+                {h5 && (
+                  <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
+                    {h5}
+                  </th>
+                )}
+                {h6 && (
+                  <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
+                    {h6}
+                  </th>
+                )}
+                {h7 && (
+                  <th className="border border-gray-300 text-sm px-1 py-1 underline underline-offset-2">
+                    {h7}
+                  </th>
+                )}
+              </tr>
+            </thead>
+            <tbody>
+              {data.length > 0 &&
+                data.map((x) => {
+                  return (
+                    <tr>
+                      {x?.v1 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v1}
+                    </td>
+                     }
+                      {x?.v2 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v2}
+                    </td>
+                     }
+                      {x?.v3 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v3}
+                    </td>
+                     }
+                      {x?.v4 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v4}
+                    </td>
+                     }
+                      {x?.v5 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v5}
+                    </td>
+                     }
+                      {x?.v6 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v6}
+                    </td>
+                     }
+                      {x?.v7 &&
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                      {x.v7}
+                    </td>
+                     }
+{/*                       
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                        {x.v2}
+                      </td>
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                        {x.v3}
+                      </td>
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                        {x.v4}
+                      </td>
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                        {x.v5}
+                      </td>
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                        {x.v6}
+                      </td>
+                      <td className="border border-gray-300 text-sm px-1 py-1 text-center">
+                        {x.v7}
+                      </td> */}
+                    </tr>
+                  );
+                })}
+            </tbody>
+            <tfoot>
+              <tr className="header-bg">
+                <td className="border bg-[#fce8d9] border-gray-300 px-2 py-1 font-bold text-left">
+                  TOTAL
+                </td>
+                <td
+                  colSpan={span}
+                  className="border border-gray-300 px-2 py-1 font-bold text-left"
+                ></td>
+                <td className="border border-gray-300 px-2 py-1 font-bold text-center">
+                  ${total}
+                </td>
+              </tr>
+              <tr className="header-bg">
+                <td
+                  colSpan="7"
+                  className="border-4 border-gray-300 px-2 py-1 font-bold text-center"
+                >
+                  {port}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
 
         <div className="mt-2">
@@ -877,7 +1031,7 @@ const ViewCommercial = () => {
         </div>
         <div className="my-6">
           <span className="flex">
-          {signature == 'ranju' ? 
+            {signature == 'ranju' ? 
             <img
             src={signPic}
             alt="Signature"
@@ -890,7 +1044,7 @@ const ViewCommercial = () => {
               className="h-16 mt-10 ml-3"
             />
             }
-           <img
+            <img
               src={
                 "https://res.cloudinary.com/dfethvtz3/image/upload/v1719990101/autoCargo/tobleafStampNew_ze36hm.png"
               }
@@ -937,20 +1091,12 @@ const ViewCommercial = () => {
       <br />
        <button
             className="my-3 px-5 py-1 border rounded-md bg-blue-500 hover:bg-blue-600 cursor-pointer text-white"
-            onClick={updateInvoice}
+            onClick={saveInvoice}
           >
-            UPDATE INVOICE
+            SAVE INVOICE
           </button>
-<br />
-          <a
-            className="my-3 px-5 py-1 border rounded-md bg-amber-500  hover:bg-amber-600 cursor-pointer text-white"
-            href={`/copyInvoice/${id}`}
-            target="_blank"
-          >
-            DUPLICATE INVOICE
-          </a>
     </div>
   );
 };
 
-export default ViewCommercial;
+export default CopyCommercial1;

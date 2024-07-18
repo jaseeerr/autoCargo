@@ -6,15 +6,17 @@ import Invoices from './components/Invoices';
 import ViewCommercial from './components/ViewCommercial';
 import Navbar from './components/Header';
 import Dma from './components/Dma';
+import CopyCommercial1 from './components/CopyCommercial';
 function App() {
     const [data, setData] = useState([]);
 
     return (
         <Router>
-       <div className="App">
+       <div className="App"> 
                 <Navbar />
                 <Routes>
                     <Route path="/" element={<Commercial />} />
+                    <Route path="/copyInvoice/:id" element={<CopyCommercial1 />} />
                     <Route path="/invoices" element={<Invoices />} />
                     <Route path="/invoice/:id" element={<ViewCommercial />} />
                     <Route path="/dma" element={<Dma />} />
