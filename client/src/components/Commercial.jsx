@@ -295,7 +295,7 @@ const Commercial1 = () => {
               setAd2('Ahmed Fathi Ahmed El Talawi and')
               setAd3('Partners, Awel Tareik Shebein El Kom')
               setAd4('Quesna - Monofya,')
-              setAd5('P.O BOX 95 SHEBEIN EL KOM,EGYP')
+              setAd5('P.O BOX 95 SHEBEIN EL KOM,EGYPT')
             }
             else if(address=='embaby')
               {
