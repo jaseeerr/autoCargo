@@ -983,7 +983,7 @@ const Commercial1 = () => {
                 "https://res.cloudinary.com/dfethvtz3/image/upload/v1719990101/autoCargo/tobleafStampNew_ze36hm.png"
               }
               alt="SEAL"
-              className="w-4h-48 h-48 ml-44"
+              className="w-60 h-60 ml-44"
             />
           </span>
           {/* <p>Authorized Signature</p> */}
